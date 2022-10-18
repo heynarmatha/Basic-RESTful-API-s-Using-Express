@@ -10,12 +10,6 @@ let courseList = [
   { id: 3, tech: "nodejs" },
 ];
 
-//GET
-
-app.get("/course", (req, res) => {
-  res.send(courseList);
-});
-
 // Post API
 
 app.post("/course", (req, res) => {
@@ -46,7 +40,7 @@ app.put("/course/:id", (req, res) => {
     (course) => course.id === parseInt(req.params.id)
   );
   if (!findCourse) {
-    res.status(404).send("Course is not avaiable");
+    return res.status(404).send("Course is not avaiable");
   }
 
   //validation
@@ -70,9 +64,18 @@ app.delete("/course/:id", (req, res) => {
   const findCourse = courseList.find(
     (course) => course.id === parseInt(req.params.id)
   );
+  if (!findCourse) {
+    return res.status(404).send("Course is not avaiable");
+  }
   const del = courseList.indexOf(findCourse);
-  courseList.splice(del);
-  res.send(findCourse);
+  courseList.splice(del, 1);
+  res.send(courseList);
+});
+
+//GET
+
+app.get("/course", (req, res) => {
+  res.send(courseList);
 });
 
 const port = process.env.PORT || 4000;

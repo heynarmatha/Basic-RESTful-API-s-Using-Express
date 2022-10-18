@@ -1,12 +1,6 @@
 const express = require("express");
 const app = express();
 
-const courseList = [
-  { id: 100, course1: "javascript" },
-  { id: 101, course1: "react" },
-  { id: 102, course1: "nodejs" },
-];
-
 app.get("/", (req, res) => {
   res.send("First GET API !!!!!!!!!!!!!!!!!!!!");
 });
@@ -29,24 +23,6 @@ app.get("/post/:year/:month", (req, res) => {
 
 app.get("/example/:year/:month", (req, res) => {
   res.send(req.query);
-});
-
-// GET API and find particular user
-
-app.get("/course", (req, res) => {
-  res.send(courseList); // to get all the courses in the list
-});
-
-//Find a single course by using a ID
-
-app.get("/course/:id", (req, res) => {
-  const findCourse = courseList.find(
-    (course) => course.id === parseInt(req.params.id)
-  );
-  if (!findCourse) {
-    res.status(404).send("Course is not avaiable");
-  }
-  res.send(findCourse);
 });
 
 //PORT

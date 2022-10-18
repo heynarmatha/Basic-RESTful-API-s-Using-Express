@@ -1,17 +1,35 @@
 const express = require("express");
+const Joi = require("joi");
 const app = express();
 
 app.use(express.json());
 
 const courseList = [
-  { id: 100, tech: "javascript" },
-  { id: 101, tech: "react" },
-  { id: 102, tech: "nodejs" },
+  { id: 1, tech: "javascript" },
+  { id: 2, tech: "react" },
+  { id: 3, tech: "nodejs" },
 ];
+
+//GET
+
+app.get("/courses", (req, res) => {
+  res.send(courseList);
+});
 
 // Post API
 
 app.post("/courses", (req, res) => {
+  //validation
+  const validation = Joi.object({
+    tech: Joi.string().required(),
+  });
+
+  const { error } = validation.validate(req.body);
+  if (error) {
+    res.status(404).send(result.error);
+    return;
+  }
+
   const course = {
     id: courseList.length + 1,
     tech: req.body.tech,
